@@ -23,7 +23,9 @@ class NewsDataProviderImpl : NewsDataProvider {
                     viewHelper?.notifyDataSetChanged()
                 }
             }
-            // TODO: handle if error happens here.
+            "error" -> {
+                items.add(NewsListAdapterItem(response.message))
+            }
         }
     }
 

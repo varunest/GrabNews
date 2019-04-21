@@ -13,7 +13,23 @@ class NewsListAdapter(val dataProvider: NewsDataProvider) : RecyclerView.Adapter
     private var headlineClickSubject = PublishSubject.create<TopHeadline>()
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): RecyclerView.ViewHolder {
-        return HeadlineViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_headline, parent, false))
+        return when (type) {
+            NewsListAdapterItem.TYPE_ERROR -> ErrorViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_error,
+                    parent,
+                    false
+                )
+            )
+            else -> HeadlineViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_headline,
+                    parent,
+                    false
+                )
+            )
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -27,7 +43,11 @@ class NewsListAdapter(val dataProvider: NewsDataProvider) : RecyclerView.Adapter
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val dataItem = dataProvider.getItem(position)
         when (dataItem.type) {
-            NewsListAdapterItem.TYPE_HEADLINE -> (viewHolder as HeadlineViewHolder).bind(dataItem.headline!!, headlineClickSubject)
+            NewsListAdapterItem.TYPE_HEADLINE -> (viewHolder as HeadlineViewHolder).bind(
+                dataItem.headline!!,
+                headlineClickSubject
+            )
+            NewsListAdapterItem.TYPE_ERROR -> (viewHolder as ErrorViewHolder).bind(dataItem.errorMessage!!)
         }
     }
 

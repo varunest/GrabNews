@@ -6,6 +6,8 @@ import com.varunest.grabnews.features.MainActivity
 import com.varunest.grabnews.features.newslist.interactor.NewsListInteractor
 import com.varunest.grabnews.features.newslist.interactor.NewsListInteractorImpl
 import com.varunest.grabnews.features.newslist.view.NewsListViewHelper
+import com.varunest.grabnews.network.model.TopHeadlinesResponse
+import com.varunest.grabnews.utils.CommonUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -35,11 +37,21 @@ class NewsListPresenterImpl(val context: Context?) : NewsListPresenter {
         val topHeadlinesDisposable = interactor.getTopHeadlinesObservable()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { response ->
+            .subscribe { response, err ->
                 viewHelper?.hideRecyclerView(false)
                 viewHelper?.hideProgressBar(true)
-                // TODO: handle error case here. like no internetr
-                dataProvider.inflateItems(response)
+                if (err != null) {
+                    context?.let {
+                        if (!CommonUtils.isNetworkAvailable(context)) {
+                            dataProvider.inflateItems(TopHeadlinesResponse("error", "Custom Error", "Internet not available.", 0, ArrayList()))
+                        } else {
+                            dataProvider.inflateItems(TopHeadlinesResponse("error", "Custom Error",
+                                err.message!!, 0, ArrayList()))
+                        }
+                    }
+                } else {
+                    dataProvider.inflateItems(response)
+                }
             }
 
         viewHelper?.let {
