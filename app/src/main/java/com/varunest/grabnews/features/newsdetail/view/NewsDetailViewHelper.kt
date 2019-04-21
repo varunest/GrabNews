@@ -14,7 +14,7 @@ import android.webkit.WebChromeClient
 
 
 interface NewsDetailViewHelper {
-    fun loadUrlInWebView(string: String)
+    fun loadUrlInWebView(url: String)
     fun getCloseClickObservable(): Observable<Unit>
     fun getWebViewProgressObservable(): Observable<Int>
     fun setProgressBar(progress: Int)

@@ -20,6 +20,13 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    override fun onBackPressed() {
+        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
+            finish()
+        }
+        super.onBackPressed()
+    }
+
     fun showNewsDetailFragment(headline: TopHeadline) {
         supportFragmentManager
             .beginTransaction()
