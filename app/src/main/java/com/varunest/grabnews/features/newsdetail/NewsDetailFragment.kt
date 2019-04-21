@@ -29,6 +29,7 @@ class NewsDetailFragment : Fragment() {
 
 
     private var closeClickDisposable: Disposable? = null
+    private var webViewProgressDisposable: Disposable? = null
     private var viewHelper: NewsDetailViewHelper? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,6 +44,12 @@ class NewsDetailFragment : Fragment() {
         closeClickDisposable =
             viewHelper?.getCloseClickObservable()?.observeOn(AndroidSchedulers.mainThread())?.subscribe {
                 (context as MainActivity).removeCurrentFragment()
+            }
+
+        webViewProgressDisposable = viewHelper?.getWebViewProgressObservable()
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe { progress ->
+                viewHelper?.setProgressBar(progress)
             }
     }
 

@@ -9,7 +9,9 @@
               app:layout_constraintTop_toTopOf="parent"
               android:text="@string/app_name"
               android:id="@+id/appName"
+              android:background="#252525"
               android:textSize="25dp"
+              android:textColor="@android:color/white"
               android:textStyle="bold"
               android:padding="16dp"/>
 

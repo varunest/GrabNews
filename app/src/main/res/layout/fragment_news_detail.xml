@@ -11,17 +11,26 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:elevation="6dp"
-            android:background="@color/colorAccent">
+            android:background="#252525">
 
         <ImageView
                 android:id="@+id/closeButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@android:drawable/ic_delete"
                 android:tint="@android:color/white"
+                android:src="@android:drawable/ic_delete"
                 android:layout_gravity="right"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="16dp"/>
+
+        <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:visibility="visible"
+                android:layout_gravity="bottom"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:max="100"/>
     </FrameLayout>
     <WebView
             android:id="@+id/newsWebview"
