@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.varunest.grabnews.R
+import com.varunest.grabnews.features.MainActivity
 import com.varunest.grabnews.features.newsdetail.view.NewsDetailViewHelper
 import com.varunest.grabnews.features.newsdetail.view.NewsDetailViewHelperImpl
 import com.varunest.grabnews.network.model.TopHeadline
-import com.varunest.grabnews.network.model.TopHeadlinesResponse
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 
 class NewsDetailFragment : Fragment() {
     companion object {
@@ -25,6 +27,8 @@ class NewsDetailFragment : Fragment() {
         }
     }
 
+
+    private var closeClickDisposable: Disposable? = null
     private var viewHelper: NewsDetailViewHelper? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -35,6 +39,15 @@ class NewsDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewHelper?.loadUrlInWebView((arguments!!.getString(ARG_URL)))
+        viewHelper?.loadUrlInWebView(arguments!!.getString(ARG_URL)!!)
+        closeClickDisposable =
+            viewHelper?.getCloseClickObservable()?.observeOn(AndroidSchedulers.mainThread())?.subscribe {
+                (context as MainActivity).removeCurrentFragment()
+            }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        closeClickDisposable?.dispose()
     }
 }
