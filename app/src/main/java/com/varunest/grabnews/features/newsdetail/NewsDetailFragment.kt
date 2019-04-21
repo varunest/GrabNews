@@ -17,11 +17,13 @@ class NewsDetailFragment : Fragment() {
     companion object {
         const val TAG = "NewsDetailFragment"
         const val ARG_URL = "NewsUrl"
+        const val ARG_TITLE = "NewsTitle"
 
         fun newInstance(headline: TopHeadline): NewsDetailFragment {
             val fragment = NewsDetailFragment()
             val args = Bundle()
             args.putString(ARG_URL, headline.url)
+            args.putString(ARG_TITLE, headline.title)
             fragment.arguments = args
             return fragment
         }
@@ -40,6 +42,7 @@ class NewsDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewHelper?.setTitle(arguments!!.getString(ARG_TITLE))
         viewHelper?.loadUrlInWebView(arguments!!.getString(ARG_URL)!!)
         closeClickDisposable =
             viewHelper?.getCloseClickObservable()?.observeOn(AndroidSchedulers.mainThread())?.subscribe {

@@ -18,6 +18,7 @@ interface NewsDetailViewHelper {
     fun getCloseClickObservable(): Observable<Unit>
     fun getWebViewProgressObservable(): Observable<Int>
     fun setProgressBar(progress: Int)
+    fun setTitle(title: String?)
 }
 
 class NewsDetailViewHelperImpl(override val containerView: View?) : NewsDetailViewHelper, LayoutContainer {
@@ -58,5 +59,9 @@ class NewsDetailViewHelperImpl(override val containerView: View?) : NewsDetailVi
 
     override fun setProgressBar(progress: Int) {
         progressBar.progress = progress
+    }
+
+    override fun setTitle(title: String?) {
+        titleTextView.text = title
     }
 }

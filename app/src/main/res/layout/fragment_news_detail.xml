@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
                                              android:elevation="10dp"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent">
@@ -12,6 +13,20 @@
             android:layout_height="50dp"
             android:elevation="6dp"
             android:background="#252525">
+
+        <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColor="@android:color/white"
+                tools:text="This is news headline"
+                android:layout_marginLeft="16dp"
+                android:textSize="18dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginRight="50dp"
+        />
 
         <ImageView
                 android:id="@+id/closeButton"
