@@ -52,12 +52,4 @@ object CommonUtils {
         }
     }
 
-    fun openWebPage(url: String, context: Context) {
-        val webpage = Uri.parse(url)
-        val intent = Intent(Intent.ACTION_VIEW, webpage)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        context.startActivity(intent)
-
-    }
-
 }
