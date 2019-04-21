@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
+        super.onBackPressed()
+        if (supportFragmentManager.fragments.size == 0) {
             finish()
         }
-        super.onBackPressed()
     }
 
     fun showNewsDetailFragment(headline: TopHeadline) {
