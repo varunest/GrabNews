@@ -52,7 +52,7 @@ class NewsListPresenterImpl(val context: Context?) : NewsListPresenter {
                 }
             disposables.add(headlineClickDisposable)
         }
-        
+
         disposables.add(topHeadlinesDisposable)
     }
 
