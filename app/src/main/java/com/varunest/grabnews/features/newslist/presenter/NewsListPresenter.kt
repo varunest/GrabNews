@@ -30,11 +30,15 @@ class NewsListPresenterImpl(val context: Context?) : NewsListPresenter {
 
     override fun onViewCreated() {
         viewHelper?.wireUpView(dataProvider)
+        viewHelper?.hideProgressBar(false)
+        viewHelper?.hideRecyclerView(true)
         val topHeadlinesDisposable = interactor.getTopHeadlinesObservable()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { response ->
-                // TODO: handle error case here. like no internet
+                viewHelper?.hideRecyclerView(false)
+                viewHelper?.hideProgressBar(true)
+                // TODO: handle error case here. like no internetr
                 dataProvider.inflateItems(response)
             }
 
@@ -42,14 +46,13 @@ class NewsListPresenterImpl(val context: Context?) : NewsListPresenter {
             val headlineClickDisposable = it.getHeadlineClickObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { headline ->
-                    context?.let {
-                        (it as MainActivity).showNewsDetailFragment(headline)
+                    context?.let {context ->
+                        (context as MainActivity).showNewsDetailFragment(headline)
                     }
                 }
             disposables.add(headlineClickDisposable)
         }
-
-
+        
         disposables.add(topHeadlinesDisposable)
     }
 

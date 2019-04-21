@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.fragment_news_detail.*
 interface NewsDetailViewHelper {
     fun getWebView(): WebView
     fun loadUrlInWebView(string: String)
-
 }
 
 class NewsDetailViewHelperImpl(override val containerView: View?) : NewsDetailViewHelper, LayoutContainer {
