@@ -1,5 +1,6 @@
 package com.varunest.grabnews.features.newslist.view
 
+import android.content.Context
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -15,6 +16,7 @@ interface NewsListViewHelper {
     fun getHeadlineClickObservable(): Observable<TopHeadline>
     fun hideProgressBar(flag: Boolean)
     fun hideRecyclerView(flag: Boolean)
+    abstract fun getContext(): Context
 }
 
 class NewsListViewHelperImpl(view: View) : NewsListViewHelper, LayoutContainer {
@@ -42,5 +44,9 @@ class NewsListViewHelperImpl(view: View) : NewsListViewHelper, LayoutContainer {
 
     override fun hideRecyclerView(flag: Boolean) {
         newsRecyclerView.visibility = if (flag) View.GONE else View.VISIBLE
+    }
+
+    override fun getContext(): Context {
+        return containerView.context
     }
 }

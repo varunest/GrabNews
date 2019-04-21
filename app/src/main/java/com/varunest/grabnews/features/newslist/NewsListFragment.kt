@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.varunest.grabnews.R
+import com.varunest.grabnews.di.component.DaggerFragmentComponent
+import com.varunest.grabnews.di.module.FragmentModule
 import com.varunest.grabnews.features.newslist.presenter.NewsListPresenter
 import com.varunest.grabnews.features.newslist.presenter.NewsListPresenterImpl
 import com.varunest.grabnews.features.newslist.view.NewsListViewHelperImpl
+import javax.inject.Inject
 
 class NewsListFragment : Fragment() {
     companion object {
@@ -18,11 +21,12 @@ class NewsListFragment : Fragment() {
             return NewsListFragment()
         }
     }
+    @Inject
     lateinit var presenter: NewsListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = NewsListPresenterImpl(this.context)
+        injectDependency()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,4 +49,13 @@ class NewsListFragment : Fragment() {
         presenter.onDestroy()
         super.onDestroy()
     }
+
+    private fun injectDependency() {
+        val listComponent = DaggerFragmentComponent.builder()
+            .fragmentModule(FragmentModule())
+            .build()
+
+        listComponent.inject(this)
+    }
+
 }

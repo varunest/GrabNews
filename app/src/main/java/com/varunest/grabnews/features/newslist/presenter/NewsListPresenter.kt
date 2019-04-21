@@ -1,7 +1,6 @@
 package com.varunest.grabnews.features.newslist.presenter
 
 import android.content.Context
-import android.util.Log
 import com.varunest.grabnews.features.MainActivity
 import com.varunest.grabnews.features.newslist.interactor.NewsListInteractor
 import com.varunest.grabnews.features.newslist.interactor.NewsListInteractorImpl
@@ -20,10 +19,12 @@ interface NewsListPresenter {
 
 }
 
-class NewsListPresenterImpl(val context: Context?) : NewsListPresenter {
+class NewsListPresenterImpl(
+    private val interactor: NewsListInteractor,
+    private val dataProvider: NewsDataProvider
+    ) : NewsListPresenter {
+
     private var viewHelper: NewsListViewHelper? = null
-    private var interactor: NewsListInteractor = NewsListInteractorImpl()
-    private var dataProvider: NewsDataProvider = NewsDataProviderImpl()
     private val disposables = CompositeDisposable()
 
     override fun setViewHelper(viewHelper: NewsListViewHelper) {
@@ -41,7 +42,7 @@ class NewsListPresenterImpl(val context: Context?) : NewsListPresenter {
                 viewHelper?.hideRecyclerView(false)
                 viewHelper?.hideProgressBar(true)
                 if (err != null) {
-                    context?.let {
+                    viewHelper?.getContext()?.let { context ->
                         if (!CommonUtils.isNetworkAvailable(context)) {
                             dataProvider.inflateItems(TopHeadlinesResponse("error", "Custom Error", "Internet not available.", 0, ArrayList()))
                         } else {
@@ -58,7 +59,7 @@ class NewsListPresenterImpl(val context: Context?) : NewsListPresenter {
             val headlineClickDisposable = it.getHeadlineClickObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { headline ->
-                    context?.let {context ->
+                    viewHelper?.getContext()?.let {context ->
                         (context as MainActivity).showNewsDetailFragment(headline)
                     }
                 }

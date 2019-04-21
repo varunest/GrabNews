@@ -5,8 +5,6 @@ import com.varunest.grabnews.network.NewsApiService
 import com.varunest.grabnews.network.RetrofitInstance
 import com.varunest.grabnews.network.model.TopHeadlinesResponse
 import io.reactivex.Single
-import android.icu.util.ULocale.getCountry
-
 
 
 interface NewsListInteractor {
