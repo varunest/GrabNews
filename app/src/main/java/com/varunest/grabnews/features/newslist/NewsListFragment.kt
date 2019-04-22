@@ -21,6 +21,7 @@ class NewsListFragment : Fragment() {
             return NewsListFragment()
         }
     }
+
     @Inject
     lateinit var presenter: NewsListPresenter
 
