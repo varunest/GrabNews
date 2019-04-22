@@ -15,10 +15,7 @@ class FileCache(context: Context) {
     }
 
     fun getFile(url: String): File {
-        //I identify images by hashcode. Not a perfect solution, good for the demo.
         val filename = url.hashCode().toString()
-        //Another possible solution (thanks to grantland)
-        //String filename = URLEncoder.encode(url);
         return File(cacheDir, filename)
 
     }

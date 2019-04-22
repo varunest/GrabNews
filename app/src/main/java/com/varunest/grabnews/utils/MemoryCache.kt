@@ -11,11 +11,10 @@ class MemoryCache {
         LinkedHashMap<String, Bitmap>(10, 1.5f, true)
     )
 
-    private var size: Long = 0//current allocated size
-    private var limit: Long = 1000000//max memory in bytes
+    private var size: Long = 0
+    private var limit: Long = 1000000
 
     init {
-        //use 25% of available heap size
         setLimit(Runtime.getRuntime().maxMemory() / 4)
     }
 
@@ -27,7 +26,6 @@ class MemoryCache {
     operator fun get(id: String): Bitmap? {
         return try {
             if (!cache.containsKey(id)) null else cache[id]
-            //NullPointerException sometimes happen here http://code.google.com/p/osmdroid/issues/detail?id=78
         } catch (ex: NullPointerException) {
             ex.printStackTrace()
             null
@@ -65,7 +63,6 @@ class MemoryCache {
 
     fun clear() {
         try {
-            //NullPointerException sometimes happen here http://code.google.com/p/osmdroid/issues/detail?id=78
             cache.clear()
             size = 0
         } catch (ex: NullPointerException) {

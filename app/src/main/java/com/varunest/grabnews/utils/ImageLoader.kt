@@ -79,28 +79,24 @@ class ImageLoader(context: Context) {
 
     }
 
-    //decodes image and scales it to reduce memory consumption
     private fun decodeFile(f: File): Bitmap? {
         try {
-            //decode image size
             val o = BitmapFactory.Options()
             o.inJustDecodeBounds = true
             BitmapFactory.decodeStream(FileInputStream(f), null, o)
 
-            //Find the correct scale value. It should be the power of 2.
             val REQUIRED_SIZE = 70
-            var width_tmp = o.outWidth
-            var height_tmp = o.outHeight
+            var widthTemp = o.outWidth
+            var heightTemp = o.outHeight
             var scale = 1
             while (true) {
-                if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
+                if (widthTemp / 2 < REQUIRED_SIZE || heightTemp / 2 < REQUIRED_SIZE)
                     break
-                width_tmp /= 2
-                height_tmp /= 2
+                widthTemp /= 2
+                heightTemp /= 2
                 scale *= 2
             }
 
-            //decode with inSampleSize
             val o2 = BitmapFactory.Options()
             o2.inSampleSize = scale
             return BitmapFactory.decodeStream(FileInputStream(f), null, o2)
@@ -110,10 +106,9 @@ class ImageLoader(context: Context) {
         return null
     }
 
-    //Task for the queue
     inner class PhotoToLoad(var url: String, var imageView: ImageView)
 
-    internal inner class PhotosLoader(var photoToLoad: PhotoToLoad) : Runnable {
+    internal inner class PhotosLoader(private var photoToLoad: PhotoToLoad) : Runnable {
 
         override fun run() {
             if (imageViewReused(photoToLoad))
