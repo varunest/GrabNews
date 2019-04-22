@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import com.varunest.grabnews.R
 import com.varunest.grabnews.features.newslist.presenter.NewsDataProvider
 import com.varunest.grabnews.network.model.TopHeadline
+import com.varunest.grabnews.utils.ImageLoader
 import io.reactivex.subjects.PublishSubject
 
 class NewsListAdapter(val dataProvider: NewsDataProvider) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var headlineClickSubject = PublishSubject.create<TopHeadline>()
+    private lateinit var imageLoader: ImageLoader
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): RecyclerView.ViewHolder {
         return when (type) {

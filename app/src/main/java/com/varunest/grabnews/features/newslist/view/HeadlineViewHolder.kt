@@ -2,10 +2,9 @@ package com.varunest.grabnews.features.newslist.view
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.squareup.picasso.Picasso
-import com.varunest.grabnews.R
 import com.varunest.grabnews.network.model.TopHeadline
 import com.varunest.grabnews.utils.CommonUtils
+import com.varunest.grabnews.utils.ImageLoader
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_headline.*
@@ -22,14 +21,7 @@ class HeadlineViewHolder(view: View) : RecyclerView.ViewHolder(view), LayoutCont
         simpleDateFormat.timeZone = TimeZone.getTimeZone("GMT")
         val date = simpleDateFormat.parse(headline.publishedAt)
         dateTextView.text = CommonUtils.getTimeAgo(date)
-
-        Picasso
-            .get()
-            .load(headline.urlToImage)
-            .placeholder(R.drawable.placeholder)
-            .error(R.drawable.placeholder)
-            .into(headlineImageView)
-
+        ImageLoader.instance.displayImage(headline.urlToImage, headlineImageView)
         itemView.setOnClickListener {
             headlineClickSubject.onNext(headline)
         }

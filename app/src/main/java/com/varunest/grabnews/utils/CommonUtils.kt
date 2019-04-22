@@ -9,6 +9,8 @@ import java.util.*
 import android.support.v4.content.ContextCompat.startActivity
 import android.content.Intent
 import android.net.Uri
+import java.io.InputStream
+import java.io.OutputStream
 
 
 object CommonUtils {
@@ -50,6 +52,22 @@ object CommonUtils {
             diff < 2 * YEAR_MILLIS -> "1 year ago"
             else -> "${diff / YEAR_MILLIS} years ago"
         }
+    }
+
+    @JvmStatic
+    fun copyStream(inputStream: InputStream, outputStream: OutputStream) {
+        val bufferSize = 1024
+        try {
+            val bytes = ByteArray(bufferSize)
+            while (true) {
+                val count = inputStream.read(bytes, 0, bufferSize)
+                if (count == -1)
+                    break
+                outputStream.write(bytes, 0, count)
+            }
+        } catch (ex: Exception) {
+        }
+
     }
 
 }

@@ -6,6 +6,7 @@ import com.varunest.grabnews.di.component.ApplicationComponent
 import com.varunest.grabnews.di.component.DaggerApplicationComponent
 import com.varunest.grabnews.di.module.ApplicationModule
 import com.varunest.grabnews.network.RetrofitInstance
+import com.varunest.grabnews.utils.ImageLoader
 
 class GrabNewsApplication : Application() {
     private lateinit var applicationComponent: ApplicationComponent
@@ -16,6 +17,7 @@ class GrabNewsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        ImageLoader.initialize(this)
         RetrofitInstance.init(this)
         applicationComponent = DaggerApplicationComponent
             .builder()
